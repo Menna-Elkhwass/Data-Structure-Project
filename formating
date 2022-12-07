@@ -1,0 +1,85 @@
+vector <string>formating( )
+{
+     string line;
+    ifstream in("sample.xml");
+    vector <string> formatedVector;
+    /**while (getline(in,line))
+    {
+        string currentLine = "";
+        for (int i = 0; i < line.length(); i++)
+        {
+                    currentLine += line[i];
+        }
+            stringVector.push_back(currentLine);
+    }**/
+    
+    
+
+     while (getline(in,line))
+    {
+        string currentLine = "";
+
+        for (int i = 0; i < line.length(); i++)
+        {
+                    currentLine += line[i];
+        }
+        switch(currentLine){
+        case"<users>" || "</users>":
+            formatedVector.push_back(currentLine);
+            break;
+        case"<user>"||"</user>":
+            string t="\t";
+            formatedVector.push_back(currentLine=t+currentLine);
+            break;
+         case"<id>"||"</id>":
+             string t="\t\t";
+            formatedVector.push_back(currentLine=t+currentLine);
+             break;
+           case"<name>"||"</name>":
+               string t="\t\t";
+               formatedVector.push_back(currentLine=t+currentLine);
+               break;
+           case"<posts>"||"<posts>":
+               string t="\t\t";
+               formatedVector.push_back(currentLine=t+currentLine);
+               break;
+            case"<post>"||"<post>":
+                string t="\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case"<body>"||"</body>":
+                string t="\t\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case"<topics>"||"</topics>":
+               string t="\t\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case"<topic>"||"</topic>":
+               string t="\t";
+               formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case"<followers>"||"<followers>":
+                string t="\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case"<follower>"||"<follower>":
+                string t="\t\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            case("<id>")&&(formatedVector.back()=="<follower>").c[]:
+                string t="\t\t\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+                break;
+            default:
+                string t="\t\t\t\t";
+                formatedVector.push_back(currentLine=t+currentLine);
+        }
+
+
+
+
+    }
+    return formatedVector;
+
+}
