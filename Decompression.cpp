@@ -1,32 +1,32 @@
-void Compress::decode(vector<int> code) {
+void Compress::decode(vector<int> decoded_code) {
     string s;
-    map<int, string> table;
+    map<int, string> decoded_table;
     for (int i = 0; i <= 255; i++) {
         string ch = "";
         ch += char(i);       
-        table[i] = ch;       
+        decoded_table[i] = ch;       
     }
-    int prev = code[0];
+    int prev = decoded_code[0];
     int next;
-    string str = table[prev];
+    string str = decoded_table[prev];
     string current = "";
     current += str[0];
     s += str;
   
     int char_count = 256;                               
-    for (int i = 0; i < code.size() - 1; i++) {  
-        next = code[i + 1];                      
-        if (table.find(next) == table.end()) {          
-            str = table[prev];                         
+    for (int i = 0; i < decoded_code.size() - 1; i++) {  
+        next = decoded_code[i + 1];                      
+        if (decoded_table.find(next) == decoded_table.end()) {          
+            str = decoded_table[prev];                         
             str = str + current;
         }
         else {
-            str = table[next];                      
+            str = decoded_table[next];                      
         }
         s += str;
         current = "";
         current += str[0];
-        table[char_count] = table[prev] + current;  
+        decoded_table[char_count] = decoded_table[prev] + current;  
         char_count++;
         prev = next;                               
     }
