@@ -1,85 +1,102 @@
-vector <string>formating( )
+string remove_space(string s)
 {
-     string line;
-    ifstream in("sample.xml");
-    vector <string> formatedVector;
-    /**while (getline(in,line))
-    {
-        string currentLine = "";
-        for (int i = 0; i < line.length(); i++)
-        {
-                    currentLine += line[i];
-        }
-            stringVector.push_back(currentLine);
-    }**/
-    
-    
-
-     while (getline(in,line))
-    {
-        string currentLine = "";
-
-        for (int i = 0; i < line.length(); i++)
-        {
-                    currentLine += line[i];
-        }
-        switch(currentLine){
-        case"<users>" || "</users>":
-            formatedVector.push_back(currentLine);
-            break;
-        case"<user>"||"</user>":
-            string t="\t";
-            formatedVector.push_back(currentLine=t+currentLine);
-            break;
-         case"<id>"||"</id>":
-             string t="\t\t";
-            formatedVector.push_back(currentLine=t+currentLine);
-             break;
-           case"<name>"||"</name>":
-               string t="\t\t";
-               formatedVector.push_back(currentLine=t+currentLine);
-               break;
-           case"<posts>"||"<posts>":
-               string t="\t\t";
-               formatedVector.push_back(currentLine=t+currentLine);
-               break;
-            case"<post>"||"<post>":
-                string t="\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case"<body>"||"</body>":
-                string t="\t\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case"<topics>"||"</topics>":
-               string t="\t\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case"<topic>"||"</topic>":
-               string t="\t";
-               formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case"<followers>"||"<followers>":
-                string t="\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case"<follower>"||"<follower>":
-                string t="\t\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            case("<id>")&&(formatedVector.back()=="<follower>").c[]:
-                string t="\t\t\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-                break;
-            default:
-                string t="\t\t\t\t";
-                formatedVector.push_back(currentLine=t+currentLine);
-        }
-
-
-
-
-    }
-    return formatedVector;
+    auto pos = s.find_first_not_of(' ');
+    auto Trimmed = s.substr(pos != std::string::npos ? pos : 0);
+    return s;
 
 }
+
+bool findInOneLine(string s)
+{
+    int c=0;
+    for(int i=0;i<s.length();i++)
+    {
+        if(s[i]=='<')
+            c++;
+    }
+    if(c==1)
+        return 0;
+    else
+        return 1;
+
+
+}
+string printsp(int n,string st)
+{
+
+    while(n!=0)
+    {
+        st+=" ";
+        n--;
+    }
+    return st;
+}
+
+ void formating(string unformated ,string formated)
+ {
+     struct my_xml
+     {
+         string s;
+         int space;
+     };
+     string l="";
+     string g,st="";
+     int i=0;
+     my_xml line;
+     stack <my_xml> tags;
+     ifstream input;
+     ifstream output;
+     input.open(unformated,iso::in);
+     output.open(unformated,iso::out);
+     if(input.is_open()&&output.is_open())
+     {
+
+        while(getline(input,l))
+        {
+            g=remove_space(l);
+            if(g[0]=='<')
+            {
+
+                if(g[1]=='/')     //close tag
+                {
+                    fout<<printsp(tags.top().space,st)<<g<<endl;
+                    tags.pop();
+
+                }
+                else                   //open tag
+                {
+
+                    if(!tags.empty())
+                        i=tags.top().space+4;
+                    if(!findInOneLine(g[i]))
+                    {
+                        line.s=g[i];
+                        line.space=i;
+                        tags.push(line);
+
+                    }
+
+
+                }
+
+            }
+            else
+            {
+                 fout<<printsp(tags.top().space+4,st)<<g<<endl;
+
+
+            }
+
+
+
+        }
+
+     }
+     input.close();
+     output.close();
+
+
+
+
+
+ }
