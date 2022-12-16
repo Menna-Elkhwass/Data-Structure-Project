@@ -9,7 +9,11 @@ class follower
 public:
     string id;
     string followerToString () {
-    return "<follower>\n<id>" + this->id + "</id>\n</follower>\n";
+    return "\t\t\t<follower>\n\t\t\t\t<id>" + this->id + "</id>\n\t\t\t</follower>\n";
+    }
+    string followerToJson() {
+     string jsonFollower = "\t\t\t\t\t{\n\t\t\t\t\t \"id\": \"" + this->id + "\"\n\t\t\t\t\t}";
+     return jsonFollower;
     }
 };
 class followers
@@ -20,14 +24,25 @@ public:
         string retFollowers = "";
         for (int q = 0; q < listOfFollowers.size(); q++) {
             if(!q) {
-                retFollowers += "<followers>\n";
+                retFollowers += "\t\t<followers>\n";
             }
             retFollowers += listOfFollowers[q].followerToString();
             if (q == listOfFollowers.size() - 1) {
-                retFollowers += "</followers>\n";
+                retFollowers += "\t\t</followers>\n";
             }
         }
         return retFollowers;
+    }
+    string followersToJson() {
+        string jsonFollowers = "\t\t\t\"followers\": [\n";
+        for (int q = 0; q < listOfFollowers.size(); q++) {
+            jsonFollowers += listOfFollowers[q].followerToJson();
+            if (q != listOfFollowers.size() - 1) {
+               jsonFollowers += ",\n" ;
+            }
+        }
+        jsonFollowers += "\n\t\t\t\t]\n";
+        return jsonFollowers;
     }
 };
 class post
@@ -38,21 +53,22 @@ public:
     string postToString ()
     {
         string retPost = "";
-        retPost += "<post>\n<body>" + this->body + "</body>\n";
+        retPost += "\t\t\t<post>\n\t\t\t\t<body>" + this->body + "</body>\n";
         for (int q = 0; q < listOfTopics.size(); q++)
         {
             if (!q)
             {
-                retPost += "<topics>\n";
+                retPost += "\t\t\t\t<topics>\n";
             }
-            retPost += "<topic>" + listOfTopics[q] + "</topic>\n";
+            retPost += "\t\t\t\t\t<topic>" + listOfTopics[q] + "</topic>\n";
             if (q == listOfTopics.size() - 1)
             {
-                retPost += "</topics>\n</post>";
+                retPost += "\t\t\t\t</topics>\n\t\t\t</post>";
             }
         }
         return retPost;
     }
+
 };
 class posts
 {
@@ -60,12 +76,23 @@ public:
     vector <post> listOfPosts;
     string postsToString()
     {
-     string retPostsToString = "<posts>\n";
+     string retPostsToString = "\t\t<posts>\n";
      for (int q = 0; q < listOfPosts.size(); q++) {
         retPostsToString += listOfPosts[q].postToString() + "\n";
      }
-     retPostsToString += "</posts>\n";
+     retPostsToString += "\t\t</posts>\n";
      return retPostsToString;
+    }
+    string postsToJson() {
+     string jsonPosts = "\t\t\t\"posts\": [\n";
+     for (int q = 0; q < listOfPosts.size(); q++) {
+        jsonPosts += "\t\t\t\t\t\"" + listOfPosts[q].body + "\"";
+        if (q != listOfPosts.size() - 1) {
+            jsonPosts +=",\n";
+        }
+     }
+     jsonPosts += "\n\t\t\t\t],\n";
+     return jsonPosts;
     }
 };
 class user
@@ -78,11 +105,18 @@ public:
     string toString()
     {
         string userTOString = "";
-        userTOString += "<user>\n<id>" + this->id + "</id>\n" + "<name>" + this->name + "</name>\n";
+        userTOString += "\t<user>\n\t\t<id>" + this->id + "</id>\n" + "\t\t<name>" + this->name + "</name>\n";
         userTOString += Posts.postsToString();
         userTOString += _followers.followersToString();
-        userTOString += "</user>\n";
+        userTOString += "\t</user>\n";
         return userTOString;
+    }
+    string userToJson () {
+    string jsonUser = "\t\t\"user\": {\n\t\t\t\"id\": \"" + this->id + "\",\n\t\t\t\"name\": \"" + this->name + "\",\n";
+    jsonUser += Posts.postsToJson();
+    jsonUser += _followers.followersToJson();
+    jsonUser += "\t\t\t}";
+    return jsonUser;
     }
 };
 class users
@@ -101,6 +135,14 @@ public:
             }
         }
         return retUsers;
+    }
+    string usersToJson () {
+        string jsonUsers = "{\n\t\"users\": [\n";
+        for (int q = 0; q <listOfUsers.size(); q++) {
+            jsonUsers += listOfUsers[q].userToJson() + "\n";
+        }
+        jsonUsers += "\t\t]\n}";
+        return jsonUsers;
     }
 };
 string minify()
@@ -363,7 +405,9 @@ void print ()
 {
     users allUsers = readAndCorrect();
     string correctedXML = allUsers.usersToString();
-    cout << correctedXML << endl;
+    string JsonXML = allUsers.usersToJson();
+    cout << correctedXML<< "\n" << endl;
+    cout << JsonXML << endl;
 }
 string textOfTag(string tag)
 {
@@ -452,20 +496,7 @@ bool isValid ()
 int main()
 {
     print();
-    return 0;
 
-    string trr = "<user><posts>Abuamra</posts></user><user><posts>cvbhifodbohdfuip</posts></user>";
-    int start = trr.find("<posts>");
-    int e = trr.find("</posts>");
-    cout << trr.substr(start + 7, e - start - 7);
-    /* while (start != string::npos) {
-         cout << "found a" << endl;
-         start = trr.find ("a", start + 1);
-     }*/
-
-    return 0;
-
-    cout << textOfTag("<users>") << "\n" << textOfTag("</posts>") << endl;
     if (isValid())
     {
         cout << "valid" << endl;
@@ -477,20 +508,4 @@ int main()
 
     string mini = minify();
     cout << "minifying \n" << mini << endl;
-    string line;
-    ifstream in("sample.xml");
-    vector <string> stringVector;
-    while (getline(in,line))
-    {
-        string currentLine = "";
-        for (int i = 0; i < line.length(); i++)
-        {
-            currentLine += line[i];
-        }
-        stringVector.push_back(currentLine);
-    }
-    for (int i = 0; i < stringVector.size(); i++)
-    {
-        cout << "cur line is " << stringVector[i] << endl;
-    }
 }
