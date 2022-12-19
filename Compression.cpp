@@ -1,5 +1,5 @@
 vector<int> Compress::compress_file(string file_encode) {
-    map<string, int> encoded_table;
+    Map<string, int> encoded_table;
     for (int i = 0; i <= 255; i++) {
         string ch = "";
         ch += char(i);
