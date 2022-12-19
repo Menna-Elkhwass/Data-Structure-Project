@@ -1,6 +1,6 @@
 void Compress::decode(vector<int> decoded_code) {
     string s;
-    map<int, string> decoded_table;
+    Map<int, string> decoded_table;
     for (int i = 0; i <= 255; i++) {
         string ch = "";
         ch += char(i);       
