@@ -1,0 +1,68 @@
+# depslib dependency file v1.0
+1675174600 source:c:\users\yara farid\desktop\ds project\xmlreader\follower.cpp
+	"follower.h"
+	<bits/stdc++.h>
+
+1675174807 c:\users\yara farid\desktop\ds project\xmlreader\follower.h
+	<bits/stdc++.h>
+
+1675186008 source:c:\users\yara farid\desktop\ds project\xmlreader\part1.cpp
+	<iostream>
+	<string>
+	<fstream>
+	<stack>
+	<vector>
+	<bits/stdc++.h>
+	"follower.h"
+	"followers.h"
+	"post.h"
+	"posts.h"
+	"user.h"
+	"users.h"
+
+1675166902 c:\users\yara farid\desktop\ds project\xmlreader\users.h
+	<bits/stdc++.h>
+
+1675174807 c:\users\yara farid\desktop\ds project\xmlreader\include\follower.h
+	<bits/stdc++.h>
+
+1675181787 c:\users\yara farid\desktop\ds project\xmlreader\include\followers.h
+	"follower.h"
+
+1675174600 source:c:\users\yara farid\desktop\ds project\xmlreader\src\follower.cpp
+	"follower.h"
+	<bits/stdc++.h>
+
+1675181767 source:c:\users\yara farid\desktop\ds project\xmlreader\src\followers.cpp
+	"followers.h"
+
+1675181707 c:\users\yara farid\desktop\ds project\xmlreader\include\post.h
+	<bits/stdc++.h>
+
+1675181711 source:c:\users\yara farid\desktop\ds project\xmlreader\src\post.cpp
+	"post.h"
+	<bits/stdc++.h>
+
+1675182012 source:c:\users\yara farid\desktop\ds project\xmlreader\src\posts.cpp
+	"posts.h"
+
+1675182140 c:\users\yara farid\desktop\ds project\xmlreader\include\posts.h
+	"post.h"
+	<bits/stdc++.h>
+
+1675183495 c:\users\yara farid\desktop\ds project\xmlreader\include\users.h
+	<bits/stdc++.h>
+	"user.h"
+
+1675182454 c:\users\yara farid\desktop\ds project\xmlreader\include\user.h
+	<bits/stdc++.h>
+	"posts.h"
+	"followers.h"
+
+1675182414 source:c:\users\yara farid\desktop\ds project\xmlreader\src\user.cpp
+	"user.h"
+	<bits/stdc++.h>
+
+1675183929 source:c:\users\yara farid\desktop\ds project\xmlreader\src\users.cpp
+	"users.h"
+
