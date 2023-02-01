@@ -3,169 +3,16 @@
 #include <fstream>
 #include <stack>
 #include <vector>
-#include <bits/stdc++.h>
-using namespace std;
-class follower
-{
-public:
-    string id;
-    string followerToString ()
-    {
-        return "\t\t\t<follower>\n\t\t\t\t<id>" + this->id + "</id>\n\t\t\t</follower>\n";
-    }
-    string followerToJson()
-    {
-        string jsonFollower = "\t\t\t\t\t{\n\t\t\t\t\t \"id\": \"" + this->id + "\"\n\t\t\t\t\t}";
-        return jsonFollower;
-    }
-};
-class followers
-{
-public:
-    vector <follower> listOfFollowers;
-    string followersToString ()
-    {
-        string retFollowers = "";
-        for (int q = 0; q < listOfFollowers.size(); q++)
-        {
-            if(!q)
-            {
-                retFollowers += "\t\t<followers>\n";
-            }
-            retFollowers += listOfFollowers[q].followerToString();
-            if (q == listOfFollowers.size() - 1)
-            {
-                retFollowers += "\t\t</followers>\n";
-            }
-        }
-        return retFollowers;
-    }
-    string followersToJson()
-    {
-        string jsonFollowers = "\t\t\t\"followers\": [\n";
-        for (int q = 0; q < listOfFollowers.size(); q++)
-        {
-            jsonFollowers += listOfFollowers[q].followerToJson();
-            if (q != listOfFollowers.size() - 1)
-            {
-                jsonFollowers += ",\n" ;
-            }
-        }
-        jsonFollowers += "\n\t\t\t\t]\n";
-        return jsonFollowers;
-    }
-};
-class post
-{
-public:
-    string body;
-    vector <string>listOfTopics;
-    string postToString ()
-    {
-        string retPost = "";
-        retPost += "\t\t\t<post>\n\t\t\t\t<body>" + this->body + "</body>\n";
-        for (int q = 0; q < listOfTopics.size(); q++)
-        {
-            if (!q)
-            {
-                retPost += "\t\t\t\t<topics>\n";
-            }
-            retPost += "\t\t\t\t\t<topic>" + listOfTopics[q] + "</topic>\n";
-            if (q == listOfTopics.size() - 1)
-            {
-                retPost += "\t\t\t\t</topics>\n\t\t\t</post>";
-            }
-        }
-        return retPost;
-    }
+#include <map>
+#include "follower.h"
+#include "followers.h"
+#include "post.h"
+#include "posts.h"
+#include "user.h"
+#include "users.h"
 
-};
-class posts
-{
-public:
-    vector <post> listOfPosts;
-    string postsToString()
-    {
-        string retPostsToString = "\t\t<posts>\n";
-        for (int q = 0; q < listOfPosts.size(); q++)
-        {
-            retPostsToString += listOfPosts[q].postToString() + "\n";
-        }
-        retPostsToString += "\t\t</posts>\n";
-        return retPostsToString;
-    }
-    string postsToJson()
-    {
-        string jsonPosts = "\t\t\t\"posts\": [\n";
-        for (int q = 0; q < listOfPosts.size(); q++)
-        {
-            jsonPosts += "\t\t\t\t\t\"" + listOfPosts[q].body + "\"";
-            if (q != listOfPosts.size() - 1)
-            {
-                jsonPosts +=",\n";
-            }
-        }
-        jsonPosts += "\n\t\t\t\t],\n";
-        return jsonPosts;
-    }
-};
-class user
-{
-public:
-    string id;
-    string name;
-    posts Posts;
-    followers _followers;
-    string toString()
-    {
-        string userTOString = "";
-        userTOString += "\t<user>\n\t\t<id>" + this->id + "</id>\n" + "\t\t<name>" + this->name + "</name>\n";
-        userTOString += Posts.postsToString();
-        userTOString += _followers.followersToString();
-        userTOString += "\t</user>\n";
-        return userTOString;
-    }
-    string userToJson ()
-    {
-        string jsonUser = "\t\t\"user\": {\n\t\t\t\"id\": \"" + this->id + "\",\n\t\t\t\"name\": \"" + this->name + "\",\n";
-        jsonUser += Posts.postsToJson();
-        jsonUser += _followers.followersToJson();
-        jsonUser += "\t\t\t}";
-        return jsonUser;
-    }
-};
-class users
-{
-public:
-    vector <user> listOfUsers;
-    string usersToString ()
-    {
-        string retUsers = "";
-        for (int q = 0; q < listOfUsers.size(); q++)
-        {
-            if (!q)
-            {
-                retUsers += "<users>\n";
-            }
-            retUsers += listOfUsers[q].toString();
-            if (q == listOfUsers.size() - 1)
-            {
-                retUsers += "</users>\n";
-            }
-        }
-        return retUsers;
-    }
-    string usersToJson ()
-    {
-        string jsonUsers = "{\n\t\"users\": [\n";
-        for (int q = 0; q <listOfUsers.size(); q++)
-        {
-            jsonUsers += listOfUsers[q].userToJson() + "\n";
-        }
-        jsonUsers += "\t\t]\n}";
-        return jsonUsers;
-    }
-};
+using namespace std;
+
 string fileIn = "unFormatted_XMLFile.xml";
 string read(string input_file)
 {
@@ -576,6 +423,30 @@ users readAndCorrect (string inputXML)
     }
     return XMLroot;
 }
+void mutual (user u1, user u2)
+{
+    bool idOfUser [50];
+    cout << "\nwe are at mutuaaal\n" << endl;
+    // users allUsers = readAndCorrect(inputXML);
+    for (int i = 0; i < 50; i++) idOfUser[i] = false;
+    for (int i = 0; i < u1._followers.listOfFollowers.size(); i++)
+    {
+        stringstream ssId(u1._followers.listOfFollowers[i].id);
+        int id = 0;
+        ssId >> id ;
+        idOfUser[id] = true ;
+    }
+    for (int i = 0; i < u2._followers.listOfFollowers.size(); i++)
+    {
+        stringstream ssId2(u2._followers.listOfFollowers[i].id);
+        int id = 0;
+        ssId2 >> id;
+        if (idOfUser[id] == true)
+        {
+            cout << "\nuser of id " << u2._followers.listOfFollowers[i].id << " is mutual between them" << endl;
+        }
+    }
+}
 void correct (string inputXML, string afterCorrection)
 {
     ofstream fout(afterCorrection.c_str(),ios::binary);
@@ -586,6 +457,35 @@ void correct (string inputXML, string afterCorrection)
     // string JsonXML = allUsers.usersToJson();
     cout << correctedXML<< "\n" << endl;
     // cout << JsonXML << endl;
+    mutual (allUsers.listOfUsers[2], allUsers.listOfUsers[1]);
+}
+void suggest( string inputXML)
+{
+    string suggested = "ID of The suggested followers:\n";
+    users allUsers = readAndCorrect(inputXML);
+    allUsers.buildFollowersList();
+    user person = allUsers.listOfUsers[2];
+    bool visited[50];
+    for (int i = 0; i < 50; i++) visited[i] = false;
+    //visited[person.id] = true;
+    for (int i = 0; i < person._followers.listOfFollowers.size(); i++)
+    {
+        stringstream cFID (person._followers.listOfFollowers[i].id); // current follower id
+        int cur_follower = 0;
+        cFID >> cur_follower;
+        for (int j = 0; j < allUsers.followersOfID[cur_follower].size(); j++)
+        {
+            int friendOfFriend = allUsers.followersOfID[cur_follower][j];
+            if (visited [friendOfFriend])
+                continue;
+            stringstream ss;
+            ss << friendOfFriend;
+            string newSuggestion = ss.str();
+            suggested += newSuggestion + "\n";
+            visited [friendOfFriend] = true;
+        }
+    }
+    cout << suggested << endl;
 }
 void toJson(string inputXML, string jsonOutput)
 {
@@ -596,6 +496,49 @@ void toJson(string inputXML, string jsonOutput)
     fout.write(JsonXML.c_str(), sizeof(char)*JsonXML.size());
     fout.close();
 }
+void maxi_number_of_followers (string inputXML)
+{
+    users allUsers = readAndCorrect(inputXML);
+    user maxf = allUsers.userWithMaxFollowers();
+    cout << maxf.id << " " << maxf.name << endl;
+}
+void mostConnected(string inputXML)
+{
+
+   /* unordered_*/map <string, int> counterOfMostRepeated;
+    cout << "we are at most connected" << endl;
+//   for (int i = 0; i < 50; i++) counterOfMostRepeated[i] = 0;
+    users allUsers = readAndCorrect(inputXML);
+    for (int i = 0; i < allUsers.listOfUsers.size(); i++)
+    {
+        user currentUser = allUsers.listOfUsers[i];
+        for (int j = 0; j < currentUser._followers.listOfFollowers.size(); j++)
+        {
+          /*  for (int k = 0; k < currentUser._followers.listOfFollowers[j].id.size(); k++) {
+                if (currentUser._followers.listOfFollowers[j].id[k] >= '0' && currentUser._followers.listOfFollowers[j].id[k] <= '9')
+                    {cout << "k = " << k << " " << currentUser._followers.listOfFollowers[j].id[k] << endl;}
+                else  {
+                    cout << "Not num k = " << k << " " << currentUser._followers.listOfFollowers[j].id[k] << endl;
+                }
+            }*/
+            string cur_user = currentUser._followers.listOfFollowers[j].id; // current follower id
+            counterOfMostRepeated[cur_user]++;
+        }
+    }
+    int maxi = INT_MIN;
+    string idOfMostConnected;
+    for (int i = 0; i < allUsers.listOfUsers.size(); i++)
+    {
+        string index = allUsers.listOfUsers[i].id;
+        if (counterOfMostRepeated[index] > maxi)
+        {
+            maxi = counterOfMostRepeated[index];
+            idOfMostConnected = index;
+        }
+    }
+    cout << "most connected user is of id " << idOfMostConnected << endl;
+}
+
 string textOfTag(string tag)
 {
     string text = "";
@@ -721,4 +664,7 @@ int main()
     toJson("unFormatted_XMLFile.xml","");
     string mini = minify("sample.xml","");
     cout << "minifying \n" << mini << endl;
+    maxi_number_of_followers ("unFormatted_XMLFile.xml");
+    suggest("unFormatted_XMLFile.xml");
+    mostConnected("unFormatted_XMLFile.xml");
 }
