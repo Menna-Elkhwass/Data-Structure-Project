@@ -425,7 +425,7 @@ users readAndCorrect (string inputXML)
 }
 void mutual (user u1, user u2)
 {
-    bool idOfUser [50];
+     map <bool, int> idOfUser;
     cout << "\nwe are at mutuaaal\n" << endl;
     // users allUsers = readAndCorrect(inputXML);
     for (int i = 0; i < 50; i++) idOfUser[i] = false;
@@ -467,7 +467,11 @@ void suggest( string inputXML)
     user person = allUsers.listOfUsers[2];
     bool visited[50];
     for (int i = 0; i < 50; i++) visited[i] = false;
-    //visited[person.id] = true;
+     stringstream ss (person.id);
+        int p = 0;
+        ss >> p;
+     //   cout << "p = " << p << endl;
+        visited[p] = true;
     for (int i = 0; i < person._followers.listOfFollowers.size(); i++)
     {
         stringstream cFID (person._followers.listOfFollowers[i].id); // current follower id
@@ -505,7 +509,7 @@ void maxi_number_of_followers (string inputXML)
 void mostConnected(string inputXML)
 {
 
-   /* unordered_*/map <string, int> counterOfMostRepeated;
+    /* unordered_*/map <string, int> counterOfMostRepeated;
     cout << "we are at most connected" << endl;
 //   for (int i = 0; i < 50; i++) counterOfMostRepeated[i] = 0;
     users allUsers = readAndCorrect(inputXML);
@@ -514,13 +518,6 @@ void mostConnected(string inputXML)
         user currentUser = allUsers.listOfUsers[i];
         for (int j = 0; j < currentUser._followers.listOfFollowers.size(); j++)
         {
-          /*  for (int k = 0; k < currentUser._followers.listOfFollowers[j].id.size(); k++) {
-                if (currentUser._followers.listOfFollowers[j].id[k] >= '0' && currentUser._followers.listOfFollowers[j].id[k] <= '9')
-                    {cout << "k = " << k << " " << currentUser._followers.listOfFollowers[j].id[k] << endl;}
-                else  {
-                    cout << "Not num k = " << k << " " << currentUser._followers.listOfFollowers[j].id[k] << endl;
-                }
-            }*/
             string cur_user = currentUser._followers.listOfFollowers[j].id; // current follower id
             counterOfMostRepeated[cur_user]++;
         }
@@ -648,7 +645,6 @@ string minify(string inputXML, string afterMinifying)
     fin.close();
     return _read;
 }
-
 int main()
 {
     correct("unFormatted_XMLFile.xml","");
