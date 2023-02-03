@@ -645,6 +645,39 @@ string minify(string inputXML, string afterMinifying)
     fin.close();
     return _read;
 }
+void find_post(string word,string input,string output)
+{
+   ifstream fin(input, ios::in);
+   ofstream fout (output, ios::out);
+   users all_users=readAndCorrect(input);
+   string posts_found="";
+   string post_for_one_user;
+   transform(word.begin(), word.end(), word.begin(), ::tolower);
+   for(int i=0;i<all_users.listOfUsers.size();i++){
+       for(int j=0 ;j<all_users.listOfUsers[i].Posts.listOfPosts.size();j++) {//loop for all posts for each user
+           post_for_one_user = all_users.listOfUsers[i].Posts.listOfPosts[j].body;
+           transform(post_for_one_user.begin(), post_for_one_user.end(), post_for_one_user.begin(), ::tolower);
+           size_t found = post_for_one_user.find(word);
+           if(found != string::npos){
+               posts_found += all_users.listOfUsers[i].Posts.listOfPosts[j].body;
+               posts_found+="\n";
+               posts_found+="\n";
+               posts_found+="\n";
+           }
+       }
+    }
+
+    if(posts_found==""){
+    fout<< "not found";}
+    else if(word == ""){
+    fout<< "Please enter word";}
+    else{
+    fout<< posts_found;}
+
+    fin.close();
+    fout.close();
+}
+
 int main()
 {
     correct("unFormatted_XMLFile.xml","");
