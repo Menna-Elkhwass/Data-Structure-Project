@@ -6,6 +6,7 @@ such files and do some basic operations. In this project, we work on developing 
 In our system the XML file will represent users in a social network
 Each user has id (unique), name, list of posts, list of followers.
 Each post has text and list of topics.
+we used opp concept to represent xml using classes
 
                                      
                                      ## What does our software do ##
